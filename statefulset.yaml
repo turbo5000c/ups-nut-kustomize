@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nut-upsd
+  labels:
+    app: nut-upsd
+spec:
+  serviceName: "nut-upsd"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nut-upsd
+  template:
+    metadata:
+      labels:
+        app: nut-upsd
+    spec:
+      containers:
+      - name: nut-upsd
+        image: instantlinux/nut-upsd:latest
+        ports:
+        - containerPort: 3493   # NUT default port for communication
+          name: nut-port
+        - containerPort: 5350   # For NUT SNMP
+          name: snmp-port
+        env:
+        - name: NUT_DRIVER
+          valueFrom:
+            configMapKeyRef:
+              name: nut-config     # Reference the ConfigMap
+              key: NUT_DRIVER
+        - name: API_USER
+          valueFrom:
+            secretKeyRef:
+              name: api-user
+              key: API_USER    
+        - name: API_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: api-password
+              key: API_PASSWORD  
+        volumeMounts:
+        - name: usb-device
+          mountPath: /dev/bus/usb/001/003
+          readOnly: true          # Mount the USB device read-only
+        securityContext:
+          privileged: true         # Allow access to host devices
+  volumes:
+  - name: usb-device
+    hostPath:
+      path: /dev/bus/usb/001/003
+      type: CharDevice           # Mount as a character device
+

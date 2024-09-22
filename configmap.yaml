@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nut-config
+  namespace: default
+data:
+  NUT_DRIVER: "usbhid-ups"            # Set the driver, e.g., usbhid-ups
