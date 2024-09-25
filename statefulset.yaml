@@ -56,4 +56,4 @@ spec:
         - name: usb-device
           hostPath:
             path: /dev/usb/hiddev0 # use a patch to fix for your env
-            type: CharDevice    
+            type: File    
