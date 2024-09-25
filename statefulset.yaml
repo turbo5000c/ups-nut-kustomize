@@ -55,5 +55,5 @@ spec:
       volumes:
         - name: usb-device
           hostPath:
-            path: /dev/usb/hiddev0 # use a patch to fix for your env
-            type: File    
+            path: /dev/bus/usb/002/004 # use a patch to fix for your env
+            type: CharDevice    
