@@ -40,15 +40,6 @@ spec:
             secretKeyRef:
               name: nut-secrets
               key: API_PASSWORD  
-        volumeMounts:
-        - name: usb-device
-          mountPath: /dev/bus/usb/001/003
-          readOnly: true          # Mount the USB device read-only
+       # Mount the USB device read-only
         securityContext:
           privileged: true         # Allow access to host devices
-  volumes:
-  - name: usb-device
-    hostPath:
-      path: /dev/bus/usb/001/003
-      type: CharDevice           # Mount as a character device
-
