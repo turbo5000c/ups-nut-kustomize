@@ -46,6 +46,10 @@ spec:
               name: nut-secrets
               key: API_PASSWORD  
         volumeMounts:
+        - name: zoneinfo
+          mountPath: /etc/localtime
+          subPath: America/New_York
+          readOnly: true
         - name: usb-device
           mountPath: /dev/usb/hiddev0 
           readOnly: true          # Mount the USB device read-only
@@ -53,6 +57,9 @@ spec:
         securityContext:
           privileged: true         # Allow access to host devices
       volumes:
+        - name: zoneinfo
+          hostPath:
+            path: /usr/share/zoneinfo
         - name: usb-device
           hostPath:
             path: /dev/bus/usb/002/004 # use a patch to fix for your env
